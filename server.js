@@ -6,7 +6,12 @@ const { WebSocketServer } = require('ws');
 // const fetch = require('node-fetch');
 
 const app = express();
-app.use(cors());
+// Cho phép frontend Netlify truy cập
+app.use(cors({
+  origin: 'https://tmstock.netlify.app' // hoặc '*' cho tất cả (không khuyến nghị production)
+}));
+
+// app.use(cors());
 app.use(express.json());
 
 const PORT = 3000;
@@ -28,7 +33,7 @@ async function fetchHistory(symbol) {
   return {
     code: symbol,
     close: json.c[i],
-    reference: json.c[i-1],
+    reference: json.c[i - 1],
     open: json.o[i],
     high: json.h[i],
     low: json.l[i],
